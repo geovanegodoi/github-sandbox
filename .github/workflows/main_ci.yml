@@ -41,6 +41,9 @@ jobs:
         uses: jefflinse/pr-semver-bump@v1.6.0
         with:
           mode: bump
+          major-label: release major
+          minor-label: release minor
+          patch-label: release patch
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Release Name
