@@ -17,4 +17,30 @@ jobs:
         name: Bump and Tag Version
         with:
           mode: bump
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }
+      
+      - name: Get current tag
+        run: |
+          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          echo "CURRENT_TAG=${CURRENT_TAG}" >> $GITHUB_ENV
+
+      - name: Get previous tag
+        id: previous-tag
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-creatordate | grep -B1 "${CURRENT_TAG}" | head -n 1)
+          echo "PREVIOUS_TAG=${PREVIOUS_TAG}" >> $GITHUB_ENV
+          echo "Previous tag is ${PREVIOUS_TAG}"
+
+      - name: Generate release notes
+        id: release-notes
+        run: |
+          echo "Generating release notes for ${CURRENT_TAG} compared to ${PREVIOUS_TAG}"
+          git log --oneline ${PREVIOUS_TAG}..${CURRENT_TAG} > release_notes.md
+          echo "Release notes generated:"
+          cat release_notes.md
+
+      - name: Upload release notes as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-notes-${CURRENT_TAG}
+          path: release_notes.md
