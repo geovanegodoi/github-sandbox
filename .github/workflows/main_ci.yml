@@ -18,9 +18,9 @@ jobs:
         name: Validate Pull Request Metadata
         with:
           mode: validate
-          major-label: release_major
-          minor-label: release_minor
-          patch-label: release_patch
+          major-label: release major
+          minor-label: release minor
+          patch-label: release patch
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   release_process:
