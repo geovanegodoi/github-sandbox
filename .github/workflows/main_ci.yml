@@ -37,7 +37,7 @@ jobs:
         with:
           # this is the description of the release from previous step
           body: ${{ steps.release_notes.outputs.notes }}
-          tag_name: ${{ github.event.release.tag_name }}
+          tag_name: ${{ steps.bump_tag.outputs.version }}
           draft: false
           prerelease: false
           # you should actually consider using this instead of gableroux/generate-github-release-notes
