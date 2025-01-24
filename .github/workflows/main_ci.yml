@@ -40,7 +40,5 @@ jobs:
           tag_name: ${{ steps.bump_tag.outputs.version }}
           draft: false
           prerelease: false
-          # you should actually consider using this instead of gableroux/generate-github-release-notes
-          # generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
