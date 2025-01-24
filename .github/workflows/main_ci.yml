@@ -21,7 +21,12 @@ jobs:
           mode: bump
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       
-      # Using gableroux/generate-github-release-notes here to generate release notes
+      - name: Generate Release Name
+        id: release_name
+        run: |
+          formatted_date=$(date +'%b %d, %Y')
+          echo "name=Release v${{ steps.bump_tag.outputs.version }} ($formatted_date)" >> $GITHUB_OUTPUT
+      
       - name: Generate Release Notes
         id: release_notes
         uses: gableroux/generate-github-release-notes@v0.1.2
@@ -30,12 +35,13 @@ jobs:
           base_tag: ${{ steps.bump_tag.outputs.old-version }}
           head_tag: ${{ steps.bump_tag.outputs.version }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          auto_detect_new_contributors: true
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          # this is the description of the release from previous step
+          name: ${{ steps.release_name.outputs.name }}
           body: ${{ steps.release_notes.outputs.notes }}
           tag_name: ${{ steps.bump_tag.outputs.version }}
           draft: false
