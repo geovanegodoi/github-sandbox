@@ -6,6 +6,11 @@ on:
   push:
     branches: [main]
 
+env:
+  MAJOR_LABEL: "release major"
+  MINOR_LABEL: "release minor"
+  PATCH_LABEL: "release patch"
+
 jobs:
   validate_pr:
     name: Validate Pull Request
@@ -18,9 +23,9 @@ jobs:
         name: Validate Pull Request Metadata
         with:
           mode: validate
-          major-label: release major
-          minor-label: release minor
-          patch-label: release patch
+          major-label: ${{ env.MAJOR_LABEL }}
+          minor-label: ${{ env.MINOR_LABEL }}
+          patch-label: ${{ env.PATCH_LABEL }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   release_process:
@@ -41,9 +46,9 @@ jobs:
         uses: jefflinse/pr-semver-bump@v1.6.0
         with:
           mode: bump
-          major-label: release major
-          minor-label: release minor
-          patch-label: release patch
+          major-label: ${{ env.MAJOR_LABEL }}
+          minor-label: ${{ env.MINOR_LABEL }}
+          patch-label: ${{ env.PATCH_LABEL }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Release Name
