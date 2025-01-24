@@ -27,8 +27,8 @@ jobs:
         uses: gableroux/generate-github-release-notes@v0.1.2
         with:
           repository: ${{ github.repository }}
-          base_tag: ${{ steps.bump_tag.old-version }}
-          head_tag: ${{ steps.bump_tag.version }}
+          base_tag: ${{ steps.bump_tag.outputs.old-version }}
+          head_tag: ${{ steps.bump_tag.outputs.version }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
