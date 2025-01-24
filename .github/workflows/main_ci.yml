@@ -17,7 +17,7 @@ jobs:
         name: Bump and Tag Version
         with:
           mode: bump
-          repo-token: ${{ secrets.GITHUB_TOKEN }
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Get current tag
         run: |
